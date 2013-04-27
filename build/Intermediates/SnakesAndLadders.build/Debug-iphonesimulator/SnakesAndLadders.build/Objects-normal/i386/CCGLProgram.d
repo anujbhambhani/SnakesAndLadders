@@ -1,0 +1,24 @@
+dependencies: \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/CCGLProgram.m \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/CCGLProgram.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/ccMacros.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/ccConfig.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Platforms/CCGL.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Platforms/iOS/CCGLView.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Platforms/iOS/CCESRenderer.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/ccGLStateCache.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Support/CCFileUtils.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Support/../ccTypes.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Support/uthash.h \
+  /Users/prudhvi/Development/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Support/OpenGL_Internal.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/matrix.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../mat4.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../utility.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../vec3.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/kazmath.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../vec2.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../mat3.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../quaternion.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../plane.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../aabb.h \
+  SnakesAndLadders/libs/kazmath/include/kazmath/GL/../ray2.h
