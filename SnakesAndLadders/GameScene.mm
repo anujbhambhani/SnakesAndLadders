@@ -29,8 +29,8 @@
 }
 
 - (void) dealloc {
-    [layer_ release];
-    layer_ = nil;
+//    [layer_ release];
+//    layer_ = nil;
     [super dealloc];
 }
 
@@ -148,12 +148,6 @@
 }
 
 - (void) dealloc {
-    [diceMenu_ release];
-    [diceMenuItem_ release];
-    [diceSprite_ release];
-    [notifyLabel_ release];
-    [userPic_ release];
-    [phonePic_ release];
     diceMenuItem_ = nil;
     diceMenu_ = nil;
     diceSprite_ = nil;
@@ -202,6 +196,22 @@
     if (rollValue_ == 6) {
         [notifyLabel_ setString:@"6! Roll Again"];
         playerPos_ += rollValue_;
+        
+        
+        NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:playerPos_];
+        NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
+        if ([ladders_ objectForKey:ladderEnd]) {
+            [notifyLabel_ setString:@"Wow! Ladder"];
+            NSLog(@"Hit a ladder");
+            playerPos_ = [ladders_[ladderEnd] intValue];
+        }
+        NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:playerPos_];
+        NSLog(@"%d", [ladderEnd intValue]);
+        if ([snakes_ objectForKey:snakeEnd]) {
+            [notifyLabel_ setString:@"Snake's belly stinks!"];
+            NSLog(@"Hit a snake");
+            playerPos_ = [snakes_[snakeEnd] intValue];
+        }
         [self updatePlayerPos];
         [diceMenu_ setEnabled:YES];
         isPlayersTurn_ = YES;
@@ -220,7 +230,7 @@
         if ([snakes_ objectForKey:snakeEnd]) {
             [notifyLabel_ setString:@"Snake's belly stinks!"];
             NSLog(@"Hit a snake");
-            playerPos_ = [snakeEnd intValue];
+            playerPos_ = [snakes_[snakeEnd] intValue];
         }
         [self updatePlayerPos];
         [self phoneTurnRoll];
@@ -230,8 +240,22 @@
 
 - (void) phoneTurnLogic {
     if (rollValue_ == 6) {
-        [notifyLabel_ setString:@"6! Rolling Again"];
         phonePos_ += rollValue_;
+        NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:phonePos_];
+        NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
+        if ([ladders_ objectForKey:ladderEnd]) {
+            [notifyLabel_ setString:@"Wow! Ladder"];
+            NSLog(@"Hit a ladder");
+            phonePos_ = [ladders_[ladderEnd] intValue];
+        }
+        NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:phonePos_];
+        NSLog(@"%d", [ladderEnd intValue]);
+        if ([snakes_ objectForKey:snakeEnd]) {
+            [notifyLabel_ setString:@"Snake's belly stinks!"];
+            NSLog(@"Hit a snake");
+            phonePos_ = [snakes_[snakeEnd] intValue];
+        }
+        [notifyLabel_ setString:@"6! Rolling Again"];
         [self updatePhonePos];
         [self phoneTurnRoll];
         isPlayersTurn_ = NO;
@@ -250,7 +274,7 @@
         if ([snakes_ objectForKey:snakeEnd]) {
             [notifyLabel_ setString:@"Snake's belly stinks!"];
             NSLog(@"Hit a snake");
-            phonePos_ = [snakeEnd intValue];
+            phonePos_ = [snakes_[snakeEnd] intValue];
         }
         [self updatePhonePos];
         [diceMenu_ setEnabled:YES];
