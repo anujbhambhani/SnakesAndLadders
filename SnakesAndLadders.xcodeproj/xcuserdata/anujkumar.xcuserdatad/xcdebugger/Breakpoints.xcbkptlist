@@ -4,7 +4,7 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/PhysicsSprite.mm"
@@ -17,81 +17,107 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/GameScene.mm"
-         timestampString = "388788782.263873"
+         timestampString = "388813318.870086"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "307"
-         endingLineNumber = "307"
+         startingLineNumber = "427"
+         endingLineNumber = "427"
          landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/GameScene.mm"
-         timestampString = "388788782.263873"
+         timestampString = "388813318.870086"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "313"
-         endingLineNumber = "313"
+         startingLineNumber = "433"
+         endingLineNumber = "433"
          landmarkName = "-showCloseConfirmation"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/GameScene.mm"
-         timestampString = "388788782.263873"
+         timestampString = "388813318.870086"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "241"
-         endingLineNumber = "241"
+         startingLineNumber = "330"
+         endingLineNumber = "330"
          landmarkName = "-phoneTurnLogic"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/GameScene.mm"
-         timestampString = "388787235.179818"
+         timestampString = "388813318.870086"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "195"
-         endingLineNumber = "195"
+         startingLineNumber = "284"
+         endingLineNumber = "284"
          landmarkName = "-playerTurnLogic"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/GameScene.mm"
-         timestampString = "388787235.179818"
+         timestampString = "388813318.870086"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "173"
-         endingLineNumber = "173"
+         startingLineNumber = "262"
+         endingLineNumber = "262"
          landmarkName = "-updatePlayerPos"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/GameScene.mm"
-         timestampString = "388787235.179818"
+         timestampString = "388813318.870086"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "160"
-         endingLineNumber = "160"
+         startingLineNumber = "249"
+         endingLineNumber = "249"
          landmarkName = "-updatePhonePos"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388813318.870086"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "317"
+         endingLineNumber = "317"
+         landmarkName = "-playerTurnLogic"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388807325.647856"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "134"
+         endingLineNumber = "134"
+         landmarkName = "-getPositionOfLadderFromTheLaddersTillFinalPosition:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -99,12 +125,103 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SnakesAndLadders/GameScene.mm"
-         timestampString = "388788782.263873"
+         timestampString = "388807325.647856"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "228"
-         endingLineNumber = "228"
-         landmarkName = "-playerTurnLogic"
+         startingLineNumber = "146"
+         endingLineNumber = "146"
+         landmarkName = "-getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388807325.647856"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "139"
+         endingLineNumber = "139"
+         landmarkName = "-getPositionOfLadderFromTheLaddersTillFinalPosition:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388813318.870086"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "199"
+         endingLineNumber = "199"
+         landmarkName = "-getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388807325.647856"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "155"
+         endingLineNumber = "155"
+         landmarkName = "-getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388813318.870086"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "374"
+         endingLineNumber = "374"
+         landmarkName = "-diceRoll"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388813318.870086"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "379"
+         endingLineNumber = "379"
+         landmarkName = "-diceRoll"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388813006.120458"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "131"
+         endingLineNumber = "131"
+         landmarkName = "-getPositionOfLadderFromTheLaddersTillFinalPosition:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SnakesAndLadders/GameScene.mm"
+         timestampString = "388813015.858172"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "143"
+         endingLineNumber = "143"
+         landmarkName = "-getPositionOfLadderFromTheLaddersTillFinalPosition:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

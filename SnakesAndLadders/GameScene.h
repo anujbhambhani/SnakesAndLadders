@@ -26,6 +26,8 @@
 @property (retain, nonatomic) NSDictionary *ladders;
 @property (retain, nonatomic) CCSprite *playerPawn;
 @property (retain, nonatomic) CCSprite *phonePawn;
+@property (nonatomic, assign) int turnsTaken;
+@property (nonatomic, retain) NSMutableArray *positions;
 
 @end
 

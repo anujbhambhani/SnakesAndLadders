@@ -9,9 +9,12 @@
 #import "GameScene.h"
 #import "HelloWorldLayer.h"
 
+#define FINAL_POSITION 95
+
 @implementation GameScene
 
 @synthesize layer = layer_;
+
 
 + (CCScene *) scene {
     CCScene *scene = [CCScene node];
@@ -119,8 +122,92 @@
         phonePawn_ = phPawn;
         
         NSLog(@"Game started");
+        self.turnsTaken = 1;
     }
     return self;
+}
+
+
+- (NSNumber *)getPositionOfLadderFromTheLaddersTillFinalPosition:(int)finalPosition {
+    finalPosition = FINAL_POSITION; //will get this from the interface
+    NSMutableArray *feasibleLadderPositions = [NSMutableArray array];
+    for(NSNumber *initialPosition in [self.ladders allKeys]) {
+        if([initialPosition intValue] <= finalPosition && [self.ladders[initialPosition] intValue] <= finalPosition) {
+            [feasibleLadderPositions addObject:initialPosition];
+        }
+    }
+    if([feasibleLadderPositions count] == 0)
+        return [NSNumber numberWithInt:-1];
+    //get a random number between 0 and feasibleLadderPositions count
+    int positionToSelect = arc4random() % [feasibleLadderPositions count];
+    return [feasibleLadderPositions objectAtIndex:positionToSelect];
+}
+
+- (NSMutableArray *)getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:(int)positionofLadderToTake {
+    NSMutableArray *positions = [NSMutableArray array];
+    int ladderStartPosition = positionofLadderToTake;
+    int ladderEndPosition = [[self.ladders objectForKey:[NSNumber numberWithInt:ladderStartPosition]] intValue];
+    int lengthOfLadder = ladderEndPosition - ladderStartPosition;
+    int meanM = (FINAL_POSITION - lengthOfLadder) / 10;
+    int currentPos = 0;
+    [positions addObject:[NSNumber numberWithInt:currentPos]];
+    //generate the positions for all moves
+    for(int i = 0; i < 4; i++) {
+        //check if the ladder start is between the current position and current position + 2 * meanM
+        if(ladderStartPosition > currentPos && ladderStartPosition <= currentPos + meanM * 2) {
+            if(ladderStartPosition == currentPos + meanM * 2) {
+                //the 1st move can take you anywhere
+                int randNum = [self randomNumberNotHavingALadderAndLessThan:(int)meanM givenCurrentPosition:currentPos];
+                currentPos = currentPos + randNum;
+                [positions addObject:[NSNumber numberWithInt:currentPos]];
+                currentPos = ladderStartPosition;
+                [positions addObject:[NSNumber numberWithInt:currentPos]];
+                currentPos = ladderEndPosition;
+            } else {
+                int distMoved = ladderStartPosition - currentPos;
+                currentPos = ladderEndPosition;
+                [positions addObject:[NSNumber numberWithInt:currentPos]];
+                currentPos = ladderEndPosition + meanM * 2 - distMoved;
+                //currentPos must not end in a ladder
+                while([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]])
+                    currentPos++;
+                [positions addObject:[NSNumber numberWithInt:currentPos]];
+            }
+        } else {
+            int randNum = [self randomNumberNotHavingALadderAndLessThan:meanM givenCurrentPosition:currentPos];
+            currentPos += randNum;
+            [positions addObject:[NSNumber numberWithInt:currentPos]];
+            currentPos = currentPos + meanM * 2 - randNum;
+            while([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]])
+                currentPos++;
+            [positions addObject:[NSNumber numberWithInt:currentPos]];
+        }
+    }
+    //last 2 steps left take its care
+    // case 1 if ladder is yet to take
+    if(ladderStartPosition > currentPos) {
+        [positions addObject:[NSNumber numberWithInt:ladderStartPosition]];
+        [positions addObject:[NSNumber numberWithInt:FINAL_POSITION]];
+    } else {
+        currentPos = FINAL_POSITION - 1;
+        while ([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]]) {
+            currentPos --;
+        }
+        [positions addObject:[NSNumber numberWithInt:currentPos]];
+        [positions addObject:[NSNumber numberWithInt:FINAL_POSITION]];
+    }
+    return positions;
+}
+
+- (int)randomNumberNotHavingALadderAndLessThan:(int)meanM givenCurrentPosition:(int)currentPos{
+    int ans;
+    while(true){
+        ans = arc4random() % meanM + 1;
+        if(![[self.ladders allKeys] containsObject:[NSNumber numberWithInt:ans + currentPos]] && (meanM * 2 - ans != 6) && ans!=6)
+            return ans;
+            
+    }
+    return 0;
 }
 
 - (void) initSnakes {
@@ -136,6 +223,7 @@
 }
 
 - (void) initLadders {
+    
     self.ladders = [NSDictionary dictionaryWithObjectsAndKeys:[[NSNumber alloc] initWithInt:15], [[NSNumber alloc] initWithInt:6],
                     [[NSNumber alloc] initWithInt:29], [[NSNumber alloc] initWithInt:11],
                     [[NSNumber alloc] initWithInt:43], [[NSNumber alloc] initWithInt:20],
@@ -145,6 +233,7 @@
                     [[NSNumber alloc] initWithInt:93], [[NSNumber alloc] initWithInt:54],
                     [[NSNumber alloc] initWithInt:97], [[NSNumber alloc] initWithInt:62],
                     nil];
+    self.positions = [self getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:[[self getPositionOfLadderFromTheLaddersTillFinalPosition:FINAL_POSITION] intValue]];
 }
 
 - (void) dealloc {
@@ -189,7 +278,7 @@
 }
 
 - (void) phoneTurnRoll {
-    [self runAction:[CCSequence actions:[[CCDelayTime alloc] initWithDuration:3],[CCCallFuncN actionWithTarget:self selector:@selector(diceRoll)],nil]];
+    [self runAction:[CCSequence actions:[[CCDelayTime alloc] initWithDuration:3],[CCCallFuncN actionWithTarget:self selector:@selector(compDiceRoll)],nil]];
 }
 
 - (void) playerTurnLogic {
@@ -200,18 +289,18 @@
         
         NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
-        if ([ladders_ objectForKey:ladderEnd]) {
-            [notifyLabel_ setString:@"Wow! Ladder"];
-            NSLog(@"Hit a ladder");
-            playerPos_ = [ladders_[ladderEnd] intValue];
-        }
+//        if ([ladders_ objectForKey:ladderEnd]) {
+//            [notifyLabel_ setString:@"Wow! Ladder"];
+//            NSLog(@"Hit a ladder");
+//            playerPos_ = [ladders_[ladderEnd] intValue];
+//        }
         NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [ladderEnd intValue]);
-        if ([snakes_ objectForKey:snakeEnd]) {
-            [notifyLabel_ setString:@"Snake's belly stinks!"];
-            NSLog(@"Hit a snake");
-            playerPos_ = [snakes_[snakeEnd] intValue];
-        }
+//        if ([snakes_ objectForKey:snakeEnd]) {
+//            [notifyLabel_ setString:@"Snake's belly stinks!"];
+//            NSLog(@"Hit a snake");
+//            playerPos_ = [snakes_[snakeEnd] intValue];
+//        }
         [self updatePlayerPos];
         [diceMenu_ setEnabled:YES];
         isPlayersTurn_ = YES;
@@ -227,11 +316,11 @@
         }
         NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [ladderEnd intValue]);
-        if ([snakes_ objectForKey:snakeEnd]) {
-            [notifyLabel_ setString:@"Snake's belly stinks!"];
-            NSLog(@"Hit a snake");
-            playerPos_ = [snakes_[snakeEnd] intValue];
-        }
+//        if ([snakes_ objectForKey:snakeEnd]) {
+//            [notifyLabel_ setString:@"Snake's belly stinks!"];
+//            NSLog(@"Hit a snake");
+//            playerPos_ = [snakes_[snakeEnd] intValue];
+//        }
         [self updatePlayerPos];
         [self phoneTurnRoll];
         isPlayersTurn_ = NO;
@@ -243,18 +332,18 @@
         phonePos_ += rollValue_;
         NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:phonePos_];
         NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
-        if ([ladders_ objectForKey:ladderEnd]) {
-            [notifyLabel_ setString:@"Wow! Ladder"];
-            NSLog(@"Hit a ladder");
-            phonePos_ = [ladders_[ladderEnd] intValue];
-        }
+//        if ([ladders_ objectForKey:ladderEnd] && rollValue_!=6) {
+//            [notifyLabel_ setString:@"Wow! Ladder"];
+//            NSLog(@"Hit a ladder");
+//            phonePos_ = [ladders_[ladderEnd] intValue];
+//        }
         NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:phonePos_];
         NSLog(@"%d", [ladderEnd intValue]);
-        if ([snakes_ objectForKey:snakeEnd]) {
-            [notifyLabel_ setString:@"Snake's belly stinks!"];
-            NSLog(@"Hit a snake");
-            phonePos_ = [snakes_[snakeEnd] intValue];
-        }
+//        if ([snakes_ objectForKey:snakeEnd]) {
+//            [notifyLabel_ setString:@"Snake's belly stinks!"];
+//            NSLog(@"Hit a snake");
+//            phonePos_ = [snakes_[snakeEnd] intValue];
+//        }
         [notifyLabel_ setString:@"6! Rolling Again"];
         [self updatePhonePos];
         [self phoneTurnRoll];
@@ -271,11 +360,11 @@
         }
         NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:phonePos_];
         NSLog(@"%d", [ladderEnd intValue]);
-        if ([snakes_ objectForKey:snakeEnd]) {
-            [notifyLabel_ setString:@"Snake's belly stinks!"];
-            NSLog(@"Hit a snake");
-            phonePos_ = [snakes_[snakeEnd] intValue];
-        }
+//        if ([snakes_ objectForKey:snakeEnd]) {
+//            [notifyLabel_ setString:@"Snake's belly stinks!"];
+//            NSLog(@"Hit a snake");
+//            phonePos_ = [snakes_[snakeEnd] intValue];
+//        }
         [self updatePhonePos];
         [diceMenu_ setEnabled:YES];
         isPlayersTurn_ = YES;
@@ -283,11 +372,42 @@
 }
 
 - (void) diceRoll {
+    if(self.turnsTaken > 10) {
+        exit(0);
+    }
     NSLog(@"Player position: %d, Phone position: %d", playerPos_, phonePos_);
     CCSprite *downArrow = [CCSprite spriteWithFile:@"arrow_down.png" rect:CGRectMake(0, 0, 24, 24)];
     downArrow.position = ccp((userPic_.position.x + phonePic_.position.x)/2, userPic_.position.y + diceSprite_.contentSize.height/2 + downArrow.contentSize.height/2);
     [self addChild:downArrow];
-    int rValue = arc4random()%6 + 1;
+    int rValue = arc4random() % 6 + 1;
+    if([self.positions[self.turnsTaken] integerValue] - playerPos_ > 6) {
+        rValue = 6;
+    } else {
+        rValue = [self.positions[self.turnsTaken] integerValue] - playerPos_;
+        self.turnsTaken++;
+    }
+    NSLog(@"rollValue: %d", rValue);
+    int numOfRotations = arc4random() % 20 + 20;
+    float delay1 = numOfRotations*0.15;
+    float delay2 = (numOfRotations/8)*0.1;
+    int angle = (rValue - 1) * 60 - (rollValue_ - 1)*60;
+    [diceMenuItem_ runAction:[CCSequence actions:[[CCRotateBy alloc] initWithDuration:delay1 angle:numOfRotations*360 - angle], nil]];
+    SEL logicMethod;
+    if (isPlayersTurn_) {
+        logicMethod = @selector(playerTurnLogic);
+    } else {
+        logicMethod = @selector(phoneTurnLogic);
+    }
+    [downArrow runAction:[CCSequence actions:[[CCDelayTime alloc] initWithDuration:delay1 + delay2 + 1],[CCCallFuncN actionWithTarget:downArrow selector:@selector(removeFromParentAndCleanup:)], [CCCallFuncN actionWithTarget:self selector:logicMethod], nil]];
+    rollValue_ = rValue;
+}
+
+- (void) compDiceRoll {
+    NSLog(@"Player position: %d, Phone position: %d", playerPos_, phonePos_);
+    CCSprite *downArrow = [CCSprite spriteWithFile:@"arrow_down.png" rect:CGRectMake(0, 0, 24, 24)];
+    downArrow.position = ccp((userPic_.position.x + phonePic_.position.x)/2, userPic_.position.y + diceSprite_.contentSize.height/2 + downArrow.contentSize.height/2);
+    [self addChild:downArrow];
+    int rValue = arc4random() % 6 + 1;
     NSLog(@"rollValue: %d", rValue);
     int numOfRotations = arc4random() % 20 + 20;
     float delay1 = numOfRotations*0.15;
