@@ -34,16 +34,30 @@
     [super dealloc];
 }
 
-- (void)placeBet {
-    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:@"GBP", @"currency",@"sandbox",@"economy",@"1.00",@"wager", nil];
-    [self.betable betForGame:@"q7Y25jgcUTCCxdnJqJs4dV" withData:data onComplete:^(NSDictionary *data) {
-        NSLog(@"success");
-        self.outcome = [data objectForKey:@"outcome"];
-        self.payout = [data objectForKey:@"payout"];
-        self.betPlaced = YES;
-    } onFailure:^(NSURLResponse *response, NSString *responseBody, NSError *error) {
-        NSLog(@"failure");
-    }];
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+    if (textField.text) {
+        if ([textField superview].tag == 2) {
+            [(UIAlertView *)[textField superview] dismissWithClickedButtonIndex:0 animated:YES];
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:@"GBP", @"currency",@"sandbox",@"economy",textField.text,@"wager", nil];
+            [self.betable betForGame:@"q7Y25jgcUTCCxdnJqJs4dV" withData:data onComplete:^(NSDictionary *data) {
+                NSLog(@"success");
+                self.outcome = [data objectForKey:@"outcome"];
+                self.payout = [data objectForKey:@"payout"];
+                self.betPlaced = YES;
+            } onFailure:^(NSURLResponse *response, NSString *responseBody, NSError *error) {
+                NSLog(@"failure");
+            }];            
+        }
+    }
 }
+
+- (void)placeBet {
+    UIAlertView *betAmountAlert = [[UIAlertView alloc] initWithTitle:@"Place Bet" message:@"Enter bet amount" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+    betAmountAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    betAmountAlert.tag = 2;
+    [betAmountAlert textFieldAtIndex:0].delegate = self;
+    [betAmountAlert show];
+    [betAmountAlert release];
+    }
 
 @end
