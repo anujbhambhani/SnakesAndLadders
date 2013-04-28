@@ -11,6 +11,7 @@
 
 #define FINAL_POSITION 95
 
+
 @implementation GameScene
 
 @synthesize layer = layer_;
@@ -41,6 +42,7 @@
 
 @interface GameLayer()
 @property (nonatomic, retain) CCSprite *board;
+@property (nonatomic, assign) int positionOfLadderToTake;
 
 @end
 
@@ -62,6 +64,7 @@
 @synthesize playerPawn = playerPawn_;
 @synthesize phonePawn = phonePawn_;
 @synthesize emitter = emitter_;
+@synthesize positionOfLadderToTake = positionOfLadderToTake_;
 
 - (void)gameOver {
     [self.notifyLabel setString:@""];
@@ -170,6 +173,9 @@
     finalPosition = FINAL_POSITION; //will get this from the interface
     NSMutableArray *feasibleLadderPositions = [NSMutableArray array];
     for(NSNumber *initialPosition in [self.ladders allKeys]) {
+        if ([initialPosition intValue]< 10) {
+            continue;
+        }
         if([initialPosition intValue] <= finalPosition && [self.ladders[initialPosition] intValue] <= finalPosition) {
             [feasibleLadderPositions addObject:initialPosition];
         }
@@ -203,11 +209,11 @@
                 currentPos = ladderEndPosition;
             } else {
                 int distMoved = ladderStartPosition - currentPos;
-                currentPos = ladderEndPosition;
+                currentPos = ladderStartPosition;
                 [positions addObject:[NSNumber numberWithInt:currentPos]];
                 currentPos = ladderEndPosition + meanM * 2 - distMoved;
                 //currentPos must not end in a ladder
-                while([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]])
+                while([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]] && (meanM*2 - distMoved)%6 != 0)
                     currentPos++;
                 [positions addObject:[NSNumber numberWithInt:currentPos]];
             }
@@ -216,7 +222,7 @@
             currentPos += randNum;
             [positions addObject:[NSNumber numberWithInt:currentPos]];
             currentPos = currentPos + meanM * 2 - randNum;
-            while([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]])
+            while([self isThereLadderAtPos:currentPos] || (self.positionOfLadderToTake - currentPos)%6 == 0)
                 currentPos++;
             [positions addObject:[NSNumber numberWithInt:currentPos]];
         }
@@ -241,11 +247,19 @@
     int ans;
     while(true){
         ans = arc4random() % meanM + 1;
-        if(![[self.ladders allKeys] containsObject:[NSNumber numberWithInt:ans + currentPos]] && (meanM * 2 - ans != 6) && ans!=6)
-            return ans;
-            
+        int nextPos = ans + currentPos;
+        if(![self isThereLadderAtPos:nextPos] && (meanM * 2 - ans != 6) && ans!=6 && nextPos + 6 != self.positionOfLadderToTake)
+            return ans;            
     }
     return 0;
+}
+
+//- (int)distanceFromLadderTheWeAreGoingToTake {
+//
+//}
+
+- (BOOL)isThereLadderAtPos:(int)pos {
+   return [[self.ladders allKeys] containsObject:[NSNumber numberWithInt:pos]];
 }
 
 - (void) initSnakes {
@@ -271,7 +285,8 @@
                     [[NSNumber alloc] initWithInt:93], [[NSNumber alloc] initWithInt:54],
                     [[NSNumber alloc] initWithInt:97], [[NSNumber alloc] initWithInt:62],
                     nil];
-    self.positions = [self getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:[[self getPositionOfLadderFromTheLaddersTillFinalPosition:FINAL_POSITION] intValue]];
+    self.positionOfLadderToTake = [[self getPositionOfLadderFromTheLaddersTillFinalPosition:FINAL_POSITION] intValue];
+    self.positions = [self getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:self.positionOfLadderToTake];
 }
 
 - (void) dealloc {
@@ -327,11 +342,11 @@
         
         NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
-//        if ([ladders_ objectForKey:ladderEnd]) {
-//            [notifyLabel_ setString:@"Wow! Ladder"];
-//            NSLog(@"Hit a ladder");
-//            playerPos_ = [ladders_[ladderEnd] intValue];
-//        }
+        if ([ladders_ objectForKey:ladderEnd]) {
+            [notifyLabel_ setString:@"Wow! Ladder"];
+            NSLog(@"Hit a ladder");
+            playerPos_ = [ladders_[ladderEnd] intValue];
+        }
         NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [ladderEnd intValue]);
 //        if ([snakes_ objectForKey:snakeEnd]) {
