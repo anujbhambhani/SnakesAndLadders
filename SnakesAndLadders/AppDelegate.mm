@@ -160,7 +160,7 @@ GlobalState *globalState;
         onComplete:[^(NSString* accessToken){
         NSLog(@"accessToken: %@", accessToken);
         if (accessToken) {
-            NSLog(@"authorized");
+            globalState.accessToken = accessToken;
         } else {
             NSLog(@"authorization failure");
         }

@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Betable/Betable.h>
 
 @interface GlobalState : NSObject
+
+@property (nonatomic, retain) Betable *betable;
+@property (nonatomic, retain) NSString *accessToken;
 
 @end
