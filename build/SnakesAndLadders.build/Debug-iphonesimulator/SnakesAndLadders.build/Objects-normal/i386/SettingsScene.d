@@ -135,4 +135,6 @@ dependencies: \
   SnakesAndLadders/libs/Box2D/Dynamics/Joints/b2RevoluteJoint.h \
   SnakesAndLadders/libs/Box2D/Dynamics/Joints/b2RopeJoint.h \
   SnakesAndLadders/libs/Box2D/Dynamics/Joints/b2WeldJoint.h \
-  /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/GLES-Render.h
+  /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/GLES-Render.h \
+  /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/GlobalState.h \
+  /Users/anujkumar/Downloads/SnakesAndLadders/Betable.framework/Headers/Betable.h

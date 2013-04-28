@@ -39,6 +39,11 @@
 
 @end
 
+@interface GameLayer()
+@property (nonatomic, retain) CCSprite *board;
+
+@end
+
 @implementation GameLayer
 
 @synthesize isPlayersTurn = isPlayersTurn_;
@@ -56,44 +61,69 @@
 @synthesize ladders = ladders_;
 @synthesize playerPawn = playerPawn_;
 @synthesize phonePawn = phonePawn_;
+@synthesize emitter = emitter_;
+
+- (void)gameOver {
+    [self.notifyLabel setString:@""];
+    
+    CCLabelTTF *winLabel = [CCLabelTTF labelWithString:@"You Won XYZ" fontName:@"Chalkduster" fontSize:18];
+    winLabel.color = ccc3(0, 153, 255);
+    winLabel.position = ccp(self.board.position.x, 280);
+    [self.board addChild:winLabel];
+    CCTexture2D* tex = [[CCTextureCache sharedTextureCache] addImage:@"transparent.png"];
+    [self.userPic setTexture:tex];
+    [self.phonePic setTexture:tex];
+    [self.diceSprite setTexture:tex];
+    [self.playerPawn setTexture:tex];
+    [self.phonePawn setTexture:tex];
+    [self.board setTexture:tex];
+    self.emitter = [[CCParticleExplosion alloc] init];
+    self.emitter.texture = [[CCTextureCache sharedTextureCache] addImage:@"bitcoin_gold.png"];
+    self.emitter.position = ccp(160,100);
+    [self addChild:self.emitter z:1000];
+    self.emitter1 = [[CCParticleFireworks alloc] init];
+    self.emitter1.texture = [[CCTextureCache sharedTextureCache] addImage:@"bitcoin_gold.png"];
+    self.emitter1.position = ccp(160,50);
+    [self addChild:self.emitter1 z:1000];
+}
 
 - (id) init {
     if (self = [super init]) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         
-        CCSprite *board = [CCSprite spriteWithFile:@"board1.png" rect:CGRectMake(0, 0, 290, 290)];
-        board.position = ccp(winSize.width/2, winSize.height - (winSize.width/2 - board.contentSize.width/2) - board.contentSize.height/2);
-        [self addChild:board];
+        self.board = [CCSprite spriteWithFile:@"board1.png" rect:CGRectMake(0, 0, 290, 290)];
+        self.board.position = ccp(winSize.width/2, winSize.height - (winSize.width/2 - self.board.contentSize.width/2) - self.board.contentSize.height/2);
+        [self addChild:self.board];
         
         CCMenuItemImage *closeButton = [CCMenuItemImage itemWithNormalImage:@"close.png" selectedImage:@"closeSel.png" target:self selector:@selector(showCloseConfirmation)];
         CCMenu *closeMenu = [CCMenu menuWithItems:closeButton, nil];
         closeMenu.position = ccp(winSize.width - closeButton.contentSize.width/2, winSize.height - closeButton.contentSize.height/2);
         [self addChild:closeMenu];
         
-        CCSprite *userPic;
+        
         NSUserDefaults *userData = [NSUserDefaults standardUserDefaults];
         if ([userData boolForKey:@"isUsingGravatar"]) {
             NSData *userImageData = [userData dataForKey:@"image"];
             UIImage *userImage = [[UIImage alloc] initWithData:userImageData];
-            userPic = [CCSprite spriteWithCGImage:userImage.CGImage key:@"user-picture"];
-            userPic.position = ccp(userPic.contentSize.width/2 + 30, userPic.contentSize.height/2 + 50);
-            [self addChild:userPic];
+            self.userPic = [CCSprite spriteWithCGImage:userImage.CGImage key:@"user-picture"];
+            self.userPic.position = ccp(self.userPic.contentSize.width/2 + 30, self.userPic.contentSize.height/2 + 50);
+            [self addChild:self.userPic];
         } else {
-            userPic = [CCSprite spriteWithFile:@"pic-default-70.png" rect:CGRectMake(0, 0, 52, 70)];
-            userPic.position = ccp(userPic.contentSize.width/2 + 30, userPic.contentSize.height/2 + 50);
-            [self addChild:userPic];
+            self.userPic = [CCSprite spriteWithFile:@"pic-default-70.png" rect:CGRectMake(0, 0, 52, 70)];
+            self.userPic.position = ccp(self.userPic.contentSize.width/2 + 30, self.userPic.contentSize.height/2 + 50);
+            [self addChild:self.userPic];
         }
-        userPic_ = userPic;
+        userPic_ = self.userPic;
         
-        CCSprite *phonePic = [CCSprite spriteWithFile:@"phone-70.png" rect:CGRectMake(0, 0, 38, 70)];
-        phonePic.position = ccp(winSize.width - phonePic.contentSize.width/2 - 30, userPic.position.y);
-        [self addChild:phonePic];
-        phonePic_ = phonePic;
+        self.phonePic = [CCSprite spriteWithFile:@"phone-70.png" rect:CGRectMake(0, 0, 38, 70)];
+        self.phonePic.position = ccp(winSize.width - self.phonePic.contentSize.width/2 - 30, self.userPic.position.y);
+        [self addChild:self.phonePic];
+        phonePic_ = self.phonePic;
         
         CCSprite *dice = [CCSprite spriteWithFile:@"dice-60.png" rect:CGRectMake(0, 0, 66, 60)];
         CCMenuItemSprite *diceItem = [CCMenuItemSprite itemWithNormalSprite:dice selectedSprite:nil target:self selector:@selector(playerTurnRoll)];
         CCMenu *diceMenu = [CCMenu menuWithItems:diceItem, nil];
-        diceMenu.position = ccp((userPic.position.x + phonePic.position.x)/2, userPic.position.y);
+        diceMenu.position = ccp((self.userPic.position.x + self.phonePic.position.x)/2, self.userPic.position.y);
         [self addChild:diceMenu];
         diceSprite_ = dice;
         diceMenuItem_ = diceItem;
@@ -108,14 +138,14 @@
         
         CCLabelTTF *notifyLabel = [CCLabelTTF labelWithString:@"Your Turn!" fontName:@"Chalkduster" fontSize:18];
         notifyLabel.color = ccc3(0, 153, 255);
-        notifyLabel.position = ccp(board.position.x, board.position.y - board.contentSize.height/2 - notifyLabel.contentSize.height/2-10);
+        notifyLabel.position = ccp(self.board.position.x, self.board.position.y - self.board.contentSize.height/2 - notifyLabel.contentSize.height/2-10);
         [self addChild:notifyLabel];
         notifyLabel_ = notifyLabel;
         
         CCSprite *plPawn = [CCSprite spriteWithFile:@"blue.png" rect:CGRectMake(0, 0, 15, 15)];
         CCSprite *phPawn = [CCSprite spriteWithFile:@"green.png" rect:CGRectMake(0, 0, 15, 15)];
-        [board addChild:plPawn];
-        [board addChild:phPawn];
+        [self.board addChild:plPawn];
+        [self.board addChild:phPawn];
         plPawn.position = ccp(9, 9);
         phPawn.position = ccp(20, 20);
         playerPawn_ = plPawn;
@@ -126,6 +156,7 @@
     }
     return self;
 }
+
 
 
 - (NSNumber *)getPositionOfLadderFromTheLaddersTillFinalPosition:(int)finalPosition {
@@ -372,6 +403,8 @@
 }
 
 - (void) diceRoll {
+    [self gameOver];
+    return;
     if(self.turnsTaken > 10) {
         exit(0);
     }

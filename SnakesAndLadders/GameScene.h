@@ -28,12 +28,16 @@
 @property (retain, nonatomic) CCSprite *phonePawn;
 @property (nonatomic, assign) int turnsTaken;
 @property (nonatomic, retain) NSMutableArray *positions;
+@property (retain, nonatomic) CCParticleExplosion *emitter;
+@property (retain, nonatomic) CCParticleFireworks *emitter1;
+
 
 @end
 
 @interface GameScene : CCScene
 
 @property (retain, nonatomic) GameLayer *layer;
+
 
 + (CCScene *) scene;
 

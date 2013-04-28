@@ -97,4 +97,6 @@ dependencies: \
   /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/libs/cocos2d/Support/CCProfiling.h \
   SnakesAndLadders/libs/kazmath/include/kazmath/GL/matrix.h \
   /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/AppDelegate.h \
-  /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/IntroLayer.h
+  /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/IntroLayer.h \
+  /Users/anujkumar/Downloads/SnakesAndLadders/SnakesAndLadders/GlobalState.h \
+  /Users/anujkumar/Downloads/SnakesAndLadders/Betable.framework/Headers/Betable.h
