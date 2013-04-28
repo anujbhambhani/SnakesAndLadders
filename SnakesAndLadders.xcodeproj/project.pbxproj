@@ -201,7 +201,6 @@
 		A4D499A915AFEFFA001AE145 /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = A4D499A815AFEFFA001AE145 /* arrow_down.png */; };
 		A4D499B015B01B1A001AE145 /* blue.png in Resources */ = {isa = PBXBuildFile; fileRef = A4D499AE15B01B1A001AE145 /* blue.png */; };
 		A4D499B115B01B1A001AE145 /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = A4D499AF15B01B1A001AE145 /* green.png */; };
-		EF21018C172CEACA006DBAB9 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = EF21018B172CEACA006DBAB9 /* fire.png */; };
 		EF21018F172CEEB0006DBAB9 /* bitcoin_gold.png in Resources */ = {isa = PBXBuildFile; fileRef = EF21018E172CEEAD006DBAB9 /* bitcoin_gold.png */; };
 		EF210191172CEEF1006DBAB9 /* Gaia_Gold.png in Resources */ = {isa = PBXBuildFile; fileRef = EF210190172CEEEE006DBAB9 /* Gaia_Gold.png */; };
 		EF2101F0172CEF62006DBAB9 /* goldcoin_0005.png in Resources */ = {isa = PBXBuildFile; fileRef = EF2101EF172CEF5F006DBAB9 /* goldcoin_0005.png */; };
@@ -596,7 +595,6 @@
 		A4D499A815AFEFFA001AE145 /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
 		A4D499AE15B01B1A001AE145 /* blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue.png; sourceTree = "<group>"; };
 		A4D499AF15B01B1A001AE145 /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green.png; sourceTree = "<group>"; };
-		EF21018B172CEACA006DBAB9 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fire.png; path = ../../../Desktop/Survivor/Resources/Textures/cocos2d/Ships/fire.png; sourceTree = "<group>"; };
 		EF21018E172CEEAD006DBAB9 /* bitcoin_gold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitcoin_gold.png; sourceTree = "<group>"; };
 		EF210190172CEEEE006DBAB9 /* Gaia_Gold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gaia_Gold.png; sourceTree = "<group>"; };
 		EF2101EF172CEF5F006DBAB9 /* goldcoin_0005.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldcoin_0005.png; sourceTree = "<group>"; };
@@ -691,7 +689,6 @@
 		A459367015AD844C006CBCBB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EF21018B172CEACA006DBAB9 /* fire.png */,
 				A4D499AE15B01B1A001AE145 /* blue.png */,
 				A4D499AF15B01B1A001AE145 /* green.png */,
 				A4D499A815AFEFFA001AE145 /* arrow_down.png */,
@@ -1312,7 +1309,6 @@
 				A4D499A915AFEFFA001AE145 /* arrow_down.png in Resources */,
 				A4D499B015B01B1A001AE145 /* blue.png in Resources */,
 				A4D499B115B01B1A001AE145 /* green.png in Resources */,
-				EF21018C172CEACA006DBAB9 /* fire.png in Resources */,
 				EF21018F172CEEB0006DBAB9 /* bitcoin_gold.png in Resources */,
 				EF210191172CEEF1006DBAB9 /* Gaia_Gold.png in Resources */,
 				EF2101F0172CEF62006DBAB9 /* goldcoin_0005.png in Resources */,
