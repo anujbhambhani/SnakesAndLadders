@@ -9,7 +9,7 @@
 #import "GameScene.h"
 #import "HelloWorldLayer.h"
 
-#define FINAL_POSITION 65
+#define FINAL_ROW 6
 
 
 @implementation GameScene
@@ -43,6 +43,7 @@
 @interface GameLayer()
 @property (nonatomic, retain) CCSprite *board;
 @property (nonatomic, assign) int positionOfLadderToTake;
+@property (nonatomic, assign) int finalPosition;
 
 @end
 
@@ -65,6 +66,7 @@
 @synthesize phonePawn = phonePawn_;
 @synthesize emitter = emitter_;
 @synthesize positionOfLadderToTake = positionOfLadderToTake_;
+@synthesize finalPosition = finalPosition_;
 
 - (void)gameOver {
     [self.notifyLabel setString:@""];
@@ -170,7 +172,7 @@
 
 
 - (NSNumber *)getPositionOfLadderFromTheLaddersTillFinalPosition:(int)finalPosition {
-    finalPosition = FINAL_POSITION; //will get this from the interface
+    finalPosition = self.finalPosition; //will get this from the interface
     NSMutableArray *feasibleLadderPositions = [NSMutableArray array];
     for(NSNumber *initialPosition in [self.ladders allKeys]) {
         if ([initialPosition intValue]< 10) {
@@ -192,7 +194,7 @@
     int ladderStartPosition = positionofLadderToTake;
     int ladderEndPosition = [[self.ladders objectForKey:[NSNumber numberWithInt:ladderStartPosition]] intValue];
     int lengthOfLadder = ladderEndPosition - ladderStartPosition;
-    int meanM = (FINAL_POSITION - lengthOfLadder) / 10;
+    int meanM = (self.finalPosition - lengthOfLadder) / 10;
     int currentPos = 0;
     [positions addObject:[NSNumber numberWithInt:currentPos]];
     //generate the positions for all moves
@@ -211,9 +213,10 @@
                 int distMoved = ladderStartPosition - currentPos;
                 currentPos = ladderStartPosition;
                 [positions addObject:[NSNumber numberWithInt:currentPos]];
-                currentPos = ladderEndPosition + meanM * 2 - distMoved;
+                int nextMove = meanM * 2 - distMoved;
+                currentPos = ladderEndPosition + nextMove;
                 //currentPos must not end in a ladder
-                while([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]] && (meanM*2 - distMoved)%6 != 0)
+                while([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]] && nextMove%6 != 0)
                     currentPos++;
                 [positions addObject:[NSNumber numberWithInt:currentPos]];
             }
@@ -221,9 +224,13 @@
             int randNum = [self randomNumberNotHavingALadderAndLessThan:meanM givenCurrentPosition:currentPos];
             currentPos += randNum;
             [positions addObject:[NSNumber numberWithInt:currentPos]];
-            currentPos = currentPos + meanM * 2 - randNum;
-            while([self isThereLadderAtPos:currentPos] || (self.positionOfLadderToTake - currentPos)%6 == 0)
-                currentPos++;
+            int nextMove = meanM * 2 - randNum;
+            int nextPos = currentPos + nextMove;
+            while([self isThereLadderAtPos:nextPos] || (self.positionOfLadderToTake - nextPos)%6 == 0 || nextMove % 6 == 0){
+                nextMove++;
+                nextPos = currentPos + nextMove;
+            }
+            currentPos = nextPos;
             [positions addObject:[NSNumber numberWithInt:currentPos]];
         }
     }
@@ -231,16 +238,42 @@
     // case 1 if ladder is yet to take
     if(ladderStartPosition > currentPos) {
         [positions addObject:[NSNumber numberWithInt:ladderStartPosition]];
-        [positions addObject:[NSNumber numberWithInt:FINAL_POSITION]];
+        while (true) {
+        int lastMove = self.finalPosition - ladderEndPosition;
+        if (lastMove % 6 != 0) {
+           [self recalculateFinalPositionInSameRow];
+        }
+        [positions addObject:[NSNumber numberWithInt:self.finalPosition]];
+            return 0;
+        }
     } else {
-        currentPos = FINAL_POSITION - 1;
+        currentPos = self.finalPosition - 1;
         while ([[self.ladders allKeys] containsObject:[NSNumber numberWithInt:currentPos]]) {
             currentPos --;
         }
         [positions addObject:[NSNumber numberWithInt:currentPos]];
-        [positions addObject:[NSNumber numberWithInt:FINAL_POSITION]];
+        [positions addObject:[NSNumber numberWithInt:self.finalPosition]];
     }
     return positions;
+}
+
+- (void)recalculateFinalPositionInSameRow {
+    int ans, row;
+    if (self.finalPosition) {
+        row = self.finalPosition/10 + 1;
+    } else {
+        row = FINAL_ROW;
+    }
+    
+    while (true) {
+        int offset = arc4random() % 10;
+        ans = row * 10 - offset;
+        if (![self isThereLadderAtPos:ans]) {
+            self.finalPosition = ans;
+            return;
+        }
+    }
+    return;
 }
 
 - (int)randomNumberNotHavingALadderAndLessThan:(int)meanM givenCurrentPosition:(int)currentPos{
@@ -285,7 +318,8 @@
                     [[NSNumber alloc] initWithInt:93], [[NSNumber alloc] initWithInt:54],
                     [[NSNumber alloc] initWithInt:97], [[NSNumber alloc] initWithInt:62],
                     nil];
-    self.positionOfLadderToTake = [[self getPositionOfLadderFromTheLaddersTillFinalPosition:FINAL_POSITION] intValue];
+        [self recalculateFinalPositionInSameRow];
+    self.positionOfLadderToTake = [[self getPositionOfLadderFromTheLaddersTillFinalPosition:self.finalPosition] intValue];
     self.positions = [self getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:self.positionOfLadderToTake];
 }
 
@@ -424,7 +458,7 @@
 }
 
 - (void) diceRoll {
-    if(self.turnsTaken > 10 && rollValue_ != 6) {
+    if(self.turnsTaken > 10) {
         [self gameOver];
         return;
     }
