@@ -71,7 +71,9 @@ extern GlobalState *globalState;
             
         CCMenuItemLabel *achievements = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"Achievements" fontName:@"Chalkduster" fontSize:24] target:self selector:@selector(testMethod:)];
         
-        CCMenu *startMenu = [CCMenu menuWithItems:newGame, settings, achievements, nil];
+        CCMenuItemLabel *placeBet = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"Place Bet" fontName:@"Chalkduster" fontSize:24] target:globalState selector:@selector(placeBet)];
+        
+        CCMenu *startMenu = [CCMenu menuWithItems:newGame, settings, achievements, placeBet, nil];
         startMenu.position = ccp(titleAnd.position.x, titleAnd.position.y - 140);
         [startMenu alignItemsVerticallyWithPadding:15.0];
 		[self addChild:startMenu];
