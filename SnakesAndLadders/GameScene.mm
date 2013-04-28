@@ -73,7 +73,7 @@ extern GlobalState *globalState;
 
 - (void)gameOver {
     [self.notifyLabel setString:@""];
-    NSString *winLabelText = [NSString stringWithFormat:@"You Wont %@", globalState.payout];
+    NSString *winLabelText = [NSString stringWithFormat:@"You Won %@ Credits", globalState.payout];
     
     CCLabelTTF *winLabel = [CCLabelTTF labelWithString:winLabelText fontName:@"Chalkduster" fontSize:18];
     winLabel.color = ccc3(0, 153, 255);
