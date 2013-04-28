@@ -339,14 +339,13 @@
         [notifyLabel_ setString:@"6! Roll Again"];
         playerPos_ += rollValue_;
         
-        
         NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
-        if ([ladders_ objectForKey:ladderEnd]) {
-            [notifyLabel_ setString:@"Wow! Ladder"];
-            NSLog(@"Hit a ladder");
-            playerPos_ = [ladders_[ladderEnd] intValue];
-        }
+//        if ([ladders_ objectForKey:ladderEnd]) {
+//            [notifyLabel_ setString:@"Wow! Ladder"];
+//            NSLog(@"Hit a ladder");
+//            playerPos_ = [ladders_[ladderEnd] intValue];
+//        }
         NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [ladderEnd intValue]);
 //        if ([snakes_ objectForKey:snakeEnd]) {
