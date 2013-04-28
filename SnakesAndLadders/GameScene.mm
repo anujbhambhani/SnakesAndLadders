@@ -8,9 +8,10 @@
 
 #import "GameScene.h"
 #import "HelloWorldLayer.h"
+#import "GlobalState.h"
 
-#define FINAL_ROW 6
 
+extern GlobalState *globalState;
 
 @implementation GameScene
 
@@ -44,6 +45,7 @@
 @property (nonatomic, retain) CCSprite *board;
 @property (nonatomic, assign) int positionOfLadderToTake;
 @property (nonatomic, assign) int finalPosition;
+@property (nonatomic, assign) int finalRow;
 
 @end
 
@@ -67,11 +69,13 @@
 @synthesize emitter = emitter_;
 @synthesize positionOfLadderToTake = positionOfLadderToTake_;
 @synthesize finalPosition = finalPosition_;
+@synthesize finalRow = finalRow_;
 
 - (void)gameOver {
     [self.notifyLabel setString:@""];
+    NSString *winLabelText = [NSString stringWithFormat:@"You Wont %@", globalState.payout];
     
-    CCLabelTTF *winLabel = [CCLabelTTF labelWithString:@"You Won XYZ" fontName:@"Chalkduster" fontSize:18];
+    CCLabelTTF *winLabel = [CCLabelTTF labelWithString:winLabelText fontName:@"Chalkduster" fontSize:18];
     winLabel.color = ccc3(0, 153, 255);
     winLabel.position = ccp(self.board.position.x, 280);
     [self.board addChild:winLabel];
@@ -257,16 +261,29 @@
 }
 
 - (void)recalculateFinalPositionInSameRow {
-    int ans, row;
-    if (self.finalPosition) {
-        row = self.finalPosition/10 + 1;
-    } else {
-        row = FINAL_ROW;
+    if (!globalState.betPlaced) {
+        return;
     }
+    NSString *outcome = globalState.outcome;
+    if ([outcome hasSuffix:@"5"]) {
+        self.finalRow = 5;
+    } else if ([outcome hasSuffix:@"6"]) {
+        self.finalRow = 6;
+    } else if ([outcome hasSuffix:@"7"]) {
+        self.finalRow = 7;
+    } else if ([outcome hasSuffix:@"8"]) {
+        self.finalRow = 8;
+    } else if ([outcome hasSuffix:@"9"]) {
+        self.finalRow = 9;
+    } else if ([outcome hasSuffix:@"10"]) {
+        self.finalRow = 10;
+    }
+    
+    int ans;
     
     while (true) {
         int offset = arc4random() % 10;
-        ans = row * 10 - offset;
+        ans = self.finalRow * 10 - offset;
         if (![self isThereLadderAtPos:ans]) {
             self.finalPosition = ans;
             return;
@@ -317,6 +334,9 @@
                     [[NSNumber alloc] initWithInt:93], [[NSNumber alloc] initWithInt:54],
                     [[NSNumber alloc] initWithInt:97], [[NSNumber alloc] initWithInt:62],
                     nil];
+    while (!globalState.betPlaced) {
+        NSLog(@"placing bet, please wait");
+    }
         [self recalculateFinalPositionInSameRow];
     self.positionOfLadderToTake = [[self getPositionOfLadderFromTheLaddersTillFinalPosition:self.finalPosition] intValue];
     self.positions = [self getTheArrayOfPositionsToMoveToGivenPositionOfLadderToTake:self.positionOfLadderToTake];

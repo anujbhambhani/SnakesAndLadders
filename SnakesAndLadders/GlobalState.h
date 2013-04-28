@@ -13,5 +13,10 @@
 
 @property (nonatomic, retain) Betable *betable;
 @property (nonatomic, retain) NSString *accessToken;
+@property (nonatomic, retain) NSString *outcome;
+@property (nonatomic, retain) NSString *payout;
+@property (nonatomic, assign) BOOL betPlaced;
+
+- (void)placeBet;
 
 @end

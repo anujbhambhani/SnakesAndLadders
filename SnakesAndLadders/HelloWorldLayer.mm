@@ -10,9 +10,11 @@
 #import "HelloWorldLayer.h"
 #import "GameScene.h"
 #import "SettingsScene.h"
+#import "GlobalState.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
+extern GlobalState *globalState;
 
 @implementation HelloWorldLayer
 
@@ -91,6 +93,7 @@
 }
 
 - (void) startNewGame:(id)sender {
+    [globalState placeBet];
     [[CCDirector sharedDirector] replaceScene:[GameScene scene]];
 }
 
