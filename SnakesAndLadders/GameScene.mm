@@ -425,10 +425,9 @@
 }
 
 - (void) diceRoll {
-    [self gameOver];
-    return;
     if(self.turnsTaken > 10) {
-        exit(0);
+        [self gameOver];
+        return;
     }
     NSLog(@"Player position: %d, Phone position: %d", playerPos_, phonePos_);
     CCSprite *downArrow = [CCSprite spriteWithFile:@"arrow_down.png" rect:CGRectMake(0, 0, 24, 24)];
