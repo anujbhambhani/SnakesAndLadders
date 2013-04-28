@@ -84,6 +84,13 @@
     self.emitter1 = [[CCParticleFireworks alloc] init];
     self.emitter1.texture = [[CCTextureCache sharedTextureCache] addImage:@"bitcoin_gold.png"];
     self.emitter1.position = ccp(160,50);
+    self.emitter1.startColorVar = (ccColor4F) {0.0f, 0.0f, 0.0f, 0.0f};
+	self.emitter1.endColor = (ccColor4F) {255.0, 1.0, 1.0, 0.0f};
+    self.emitter.startColorVar = (ccColor4F) {0.0f, 1.0f, 1.0f, 0.0f};
+	self.emitter.endColor = (ccColor4F) {0.0, 1.0, 1.0, 0.0f};
+    self.emitter1.angleVar = 20;
+    self.emitter1.posVar = ccp(0,50);
+	self.emitter1.scale = 1.2;
     [self addChild:self.emitter1 z:1000];
 }
 
