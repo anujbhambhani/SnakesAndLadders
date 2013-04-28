@@ -48,8 +48,9 @@ extern GlobalState *globalState;
 
 - (id) init {
     if (self = [super init]) {
-        [globalState.betable authorize];
-
+        if (!globalState.accessToken) {
+            [globalState.betable authorize];
+        }        
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         CCSprite *defPic = [CCSprite spriteWithFile:@"pic-default-70.png" rect:CGRectMake(0, 0, 70, 70)];
         CCSprite *gravatarPic = [self getGravatar];
