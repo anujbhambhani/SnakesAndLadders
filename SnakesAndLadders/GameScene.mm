@@ -358,6 +358,23 @@
     playerPawn_.position = ccp(col+12, row+12);
 }
 
+- (void)updatePlayerPosAfterDelay {
+    int x = playerPos_ - 1;
+    int row, col;
+    row = (x /10 + 1)*29 - 20;
+    if (row%2) {
+        col = (x%10 + 1)*29 - 20;
+    } else {
+        col = [playerPawn_ parent].contentSize.width - (x%10)*29 - 20;
+    }
+    id delay    = [CCDelayTime actionWithDuration:1];
+    id move     = [CCMoveTo actionWithDuration:0.5 position:ccp(col, row)];
+    id sequence = [CCSequence actions:delay, move, nil];
+    [playerPawn_ runAction:sequence];
+    playerPawn_.position = ccp(col+12, row+12);
+}
+
+
 - (void) playerTurnRoll {
     [diceMenu_ setEnabled:NO];
     [self diceRoll];
@@ -406,7 +423,7 @@
 //            NSLog(@"Hit a snake");
 //            playerPos_ = [snakes_[snakeEnd] intValue];
 //        }
-        [self updatePlayerPos];
+        [self updatePlayerPosAfterDelay];
         [self phoneTurnRoll];
         isPlayersTurn_ = NO;
     }
