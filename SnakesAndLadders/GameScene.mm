@@ -147,8 +147,8 @@
         isDieRolling_ = NO;
         [self initSnakes];
         [self initLadders];
-        
-        CCLabelTTF *notifyLabel = [CCLabelTTF labelWithString:@"Your Turn!" fontName:@"Chalkduster" fontSize:18];
+        self.turnsTaken = 1;
+        CCLabelTTF *notifyLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Your Turns Left = %d!",11 - self.turnsTaken] fontName:@"Chalkduster" fontSize:18];
         notifyLabel.color = ccc3(0, 153, 255);
         notifyLabel.position = ccp(self.board.position.x, self.board.position.y - self.board.contentSize.height/2 - notifyLabel.contentSize.height/2-10);
         [self addChild:notifyLabel];
@@ -164,7 +164,6 @@
         phonePawn_ = phPawn;
         
         NSLog(@"Game started");
-        self.turnsTaken = 1;
     }
     return self;
 }
@@ -435,7 +434,7 @@
         [self phoneTurnRoll];
         isPlayersTurn_ = NO;
     } else {
-        [notifyLabel_ setString:@"Your Turn!"];
+        [notifyLabel_ setString:[NSString stringWithFormat:@"Your Turns Left = %d!",11 - self.turnsTaken]];
         phonePos_ += rollValue_;
         NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:phonePos_];
         NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
