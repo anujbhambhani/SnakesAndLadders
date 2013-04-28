@@ -1,1 +1,61 @@
-jdhakjdhkja
+*.pyc
+.DS_Store
+*.tmp
+.pairs
+/tmp
+
+Resources/Settings1/
+Resources/older_french_Xibs/
+Resources/Settings1.zip
+
+# Sparkle distribution Private Key (Don't check me in!)
+dsa_priv.pem
+
+# XCode (and ancestors) per-user config (very noisy, and not relevant)
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+.LSOverride
+xcuserdata
+*.xcworkspace
+
+# Generated files
+VersionX-revision.h
+
+# Script-generated files
+Resources/Settings/Encrypted/
+
+# build products
+build/
+build/*.[oa]
+
+# revisions
+Revisions
+
+# Other source repository archive directories (protects when importing)
+.hg
+.svn
+CVS
+
+# automatic backup files
+*~.nib
+*.swp
+*~
+*(Autosaved).rtfd/
+Backup*.pages/
+Backup*.key/
+Backup*.numbers/
+
+.classes.TM_Completions.txt.gz
+.methods.TM_Completions.txt.gz
+Survivor.xcodeproj/pivotal.tm_build_errors
+
+githash.txt
+GitCommit.txt
+Date.txt
+Survivor.xcodeproj/xcshareddata/xcschemes/
+App/Agents/DialogAgents/RaidRewardAgent
+
