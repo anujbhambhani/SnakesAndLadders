@@ -9,7 +9,7 @@
 #import "GameScene.h"
 #import "HelloWorldLayer.h"
 
-#define FINAL_POSITION 95
+#define FINAL_POSITION 65
 
 
 @implementation GameScene
@@ -424,7 +424,7 @@
 }
 
 - (void) diceRoll {
-    if(self.turnsTaken > 10) {
+    if(self.turnsTaken > 10 && rollValue_ != 6) {
         [self gameOver];
         return;
     }
