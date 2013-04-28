@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		166D19A3172CA1F80034B21A /* GlobalState.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D19A2172CA1F70034B21A /* GlobalState.m */; };
+		166D19A7172CA77C0034B21A /* Betable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166D19A6172CA77C0034B21A /* Betable.framework */; };
 		A459365E15AD844C006CBCBB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A459365D15AD844C006CBCBB /* QuartzCore.framework */; };
 		A459366015AD844C006CBCBB /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A459365F15AD844C006CBCBB /* OpenGLES.framework */; };
 		A459366215AD844C006CBCBB /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A459366115AD844C006CBCBB /* OpenAL.framework */; };
@@ -202,6 +204,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		166D19A1172CA1F60034B21A /* GlobalState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalState.h; sourceTree = "<group>"; };
+		166D19A2172CA1F70034B21A /* GlobalState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalState.m; sourceTree = "<group>"; };
+		166D19A6172CA77C0034B21A /* Betable.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Betable.framework; sourceTree = "<group>"; };
 		A459365915AD844C006CBCBB /* SnakesAndLadders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnakesAndLadders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A459365D15AD844C006CBCBB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A459365F15AD844C006CBCBB /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -591,6 +596,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				166D19A7172CA77C0034B21A /* Betable.framework in Frameworks */,
 				A459365E15AD844C006CBCBB /* QuartzCore.framework in Frameworks */,
 				A459366015AD844C006CBCBB /* OpenGLES.framework in Frameworks */,
 				A459366215AD844C006CBCBB /* OpenAL.framework in Frameworks */,
@@ -609,6 +615,7 @@
 		A459364E15AD844C006CBCBB = {
 			isa = PBXGroup;
 			children = (
+				166D19A6172CA77C0034B21A /* Betable.framework */,
 				A459366F15AD844C006CBCBB /* SnakesAndLadders */,
 				A459365C15AD844C006CBCBB /* Frameworks */,
 				A459365A15AD844C006CBCBB /* Products */,
@@ -661,6 +668,8 @@
 				A45938B615AE9714006CBCBB /* UserData.m */,
 				A45938BC15AEA0CC006CBCBB /* SettingsScene.h */,
 				A45938BD15AEA0CC006CBCBB /* SettingsScene.mm */,
+				166D19A1172CA1F60034B21A /* GlobalState.h */,
+				166D19A2172CA1F70034B21A /* GlobalState.m */,
 			);
 			path = SnakesAndLadders;
 			sourceTree = "<group>";
@@ -1446,6 +1455,7 @@
 				A459389E15ADA57C006CBCBB /* GameScene.mm in Sources */,
 				A45938B715AE9714006CBCBB /* UserData.m in Sources */,
 				A45938BE15AEA0CC006CBCBB /* SettingsScene.mm in Sources */,
+				166D19A3172CA1F80034B21A /* GlobalState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,6 +1507,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SnakesAndLadders/Prefix.pch;
@@ -1517,6 +1531,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SnakesAndLadders/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"SnakesAndLadders/libs/kazmath/include\"";

@@ -10,7 +10,9 @@
 #import "UserData.h"
 #import "HelloWorldLayer.h"
 #import "CommonCrypto/CommonDigest.h"
+#import "GlobalState.h"
 
+extern GlobalState *globalState;
 
 @implementation SettingsScene
 
@@ -46,6 +48,8 @@
 
 - (id) init {
     if (self = [super init]) {
+        [globalState.betable authorize];
+
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         CCSprite *defPic = [CCSprite spriteWithFile:@"pic-default-70.png" rect:CGRectMake(0, 0, 70, 70)];
         CCSprite *gravatarPic = [self getGravatar];

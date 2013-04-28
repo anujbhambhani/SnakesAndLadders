@@ -10,6 +10,9 @@
 
 #import "AppDelegate.h"
 #import "IntroLayer.h"
+#import "GlobalState.h"
+
+GlobalState *globalState;
 
 @implementation AppController
 
@@ -17,6 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    globalState = [[GlobalState alloc] init];
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
@@ -144,11 +149,34 @@
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
+    for (NSString *param in [[url query] componentsSeparatedByString:@"&"]) {
+        NSArray *elts = [param componentsSeparatedByString:@"="];
+        if([elts count] < 2) continue;
+        [params setObject:[elts objectAtIndex:1] forKey:[elts objectAtIndex:0]];
+    }
+    [globalState.betable token:[params objectForKey:@"code"]
+        onComplete:[^(NSString* accessToken){
+        NSLog(@"accessToken: %@", accessToken);
+        if (accessToken) {
+            NSLog(@"authorized");
+        } else {
+            NSLog(@"authorization failure");
+        }
+    } autorelease]
+         onFailure:[^(NSURLResponse *response, NSString *responseBody, NSError *error){
+        NSLog(@"%@", error);
+    } autorelease]
+     ];
+    return YES;
+}
+
 - (void) dealloc
 {
 	[window_ release];
 	[navController_ release];
-	
+	globalState = nil;
 	[super dealloc];
 }
 @end
