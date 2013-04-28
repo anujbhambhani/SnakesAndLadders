@@ -431,10 +431,13 @@ extern GlobalState *globalState;
         playerPos_ += rollValue_;
         NSNumber *ladderEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [(NSNumber *)[ladders_ objectForKey:ladderEnd] intValue]);
+        [self updatePlayerPos];
+        
         if ([ladders_ objectForKey:ladderEnd]) {
             [notifyLabel_ setString:@"Wow! Ladder"];
             NSLog(@"Hit a ladder");
             playerPos_ = [ladders_[ladderEnd] intValue];
+            [self updatePlayerPosAfterDelay];
         }
         NSNumber *snakeEnd = [[NSNumber alloc] initWithInt:playerPos_];
         NSLog(@"%d", [ladderEnd intValue]);
@@ -443,7 +446,6 @@ extern GlobalState *globalState;
 //            NSLog(@"Hit a snake");
 //            playerPos_ = [snakes_[snakeEnd] intValue];
 //        }
-        [self updatePlayerPosAfterDelay];
         [self phoneTurnRoll];
         isPlayersTurn_ = NO;
     }
