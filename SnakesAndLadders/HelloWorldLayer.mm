@@ -95,7 +95,6 @@ extern GlobalState *globalState;
 }
 
 - (void) startNewGame:(id)sender {
-    [globalState placeBet];
     [[CCDirector sharedDirector] replaceScene:[GameScene scene]];
 }
 
